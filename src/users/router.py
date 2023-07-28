@@ -11,7 +11,8 @@ from users.schemas import UserUpdate
 
 from users.crud import insert_user,select_user_by_id
 from users.crud import select_all_users,update_user_in_db
-from users.crud import delete_user_in_db
+from users.crud import delete_user_in_db,select_user_by_email
+from myBudgetBot.exceptions import registered_user_exception
 
 users_routes= APIRouter(prefix="/api/v1/users")
 
@@ -22,7 +23,10 @@ users_routes= APIRouter(prefix="/api/v1/users")
                      status_code=status.HTTP_201_CREATED)
 async def create_user(user_data:UserCreate,
                         db:Session=Depends(get_db)):
-
+    user_db = select_user_by_email(db,user_data.email)
+    if user_db:
+        raise registered_user_exception
+    
     return insert_user(db,user_data)
 
 @users_routes.get(path="/get/all/",

@@ -6,7 +6,11 @@ from database.database import Base
 class User(Base):
     __tablename__="users"
     id = Column(Integer, primary_key=True, index=True,autoincrement=True)
-    name = Column(String(50))
+    first_name = Column(String(50))
+    last_name = Column(String(50))
+    username = Column(String(50))
+    email = Column(String(100))
+    password = Column(String(100))
     
 
 class Suscription(Base):
