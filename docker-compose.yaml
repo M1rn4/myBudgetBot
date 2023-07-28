@@ -1,0 +1,26 @@
+
+version: "3.8"
+services:
+
+  myBudgetBot_db:
+    container_name: myBudgetBot_db
+    
+    image: mysql
+    environment:
+      MYSQL_USER: myBudgetBot_user
+      MYSQL_PASSWORD: myBudgetBot_password
+      MYSQL_ROOT_PASSWORD: myBudgetBot_password
+      MYSQL_DATABASE: myBudgetBot_db
+    ports:
+      - "3306:3306"
+    volumes: 
+      - ./db_volume:/var/lib/mysql
+    
+
+  myBudgetBot:
+    container_name: myBudgetBot
+    image: mybudgetbot_image
+    volumes:
+      - ./src:/myBudgetBot
+    ports:
+      - "8000:80"
